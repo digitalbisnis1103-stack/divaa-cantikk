@@ -1,0 +1,1381 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Divaa Cantikk ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#fff0f3;
+  --pink:#e9a6b5;
+  --pink-dark:#bd7189;
+  --pink-light:#f8dce4;
+  --ink:#28334e;
+  --paper:#fffdfb;
+  --line:#d9d4d6;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Poppins,sans-serif;
+  overflow-x:hidden;
+}
+
+button,input{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--pink-dark);outline-offset:3px}
+
+.page{
+  display:none;
+  min-height:100svh;
+  padding:28px 15px 85px;
+  position:relative;
+  overflow:hidden;
+}
+
+.page.active{
+  display:flex;
+  align-items:center;
+  flex-direction:column;
+  animation:appear .35s ease;
+}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.script{
+  font-family:"Dancing Script",cursive;
+  font-weight:600;
+}
+
+h1{
+  font-size:clamp(38px,10vw,52px);
+  line-height:1.2;
+  margin:0 0 22px;
+  text-align:center;
+}
+
+p{line-height:1.9}
+
+.pill{
+  background:white;
+  border:2px solid var(--line);
+  border-radius:50px;
+  padding:12px 20px;
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+}
+
+.btn{
+  width:100%;
+  max-width:350px;
+  padding:15px 18px;
+  border:0;
+  border-radius:50px;
+  background:var(--pink-dark);
+  color:white;
+  font-weight:600;
+  letter-spacing:.4px;
+  box-shadow:0 7px 20px #bd718928;
+  transition:transform .15s;
+}
+
+.btn:active{transform:scale(.97)}
+
+.btn-white{
+  background:white;
+  color:var(--pink-dark);
+  border:2px solid var(--pink-dark);
+  box-shadow:none;
+}
+
+.music{
+  position:fixed;
+  right:18px;
+  bottom:20px;
+  z-index:50;
+  width:49px;
+  height:49px;
+  border:2px solid var(--pink-dark);
+  border-radius:50%;
+  background:white;
+  color:var(--ink);
+  font-size:22px;
+}
+
+.music-note{
+  position:fixed;
+  right:29px;
+  top:70px;
+  z-index:40;
+  animation:note 1.8s infinite;
+}
+
+@keyframes note{50%{transform:translateY(-8px) rotate(10deg)}}
+
+.music-player{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border:2px solid var(--line);
+  background:white;
+  border-radius:40px;
+  padding:9px 16px;
+  margin:10px auto 35px;
+  font-size:12px;
+}
+
+.disc{
+  width:32px;
+  height:32px;
+  background:var(--ink);
+  border:7px solid #e2dce2;
+  border-radius:50%;
+}
+
+.home-content{
+  width:100%;
+  max-width:460px;
+  text-align:center;
+  margin:auto;
+}
+
+.home-content p{font-size:14px;font-weight:500}
+
+.heart-decoration{
+  position:absolute;
+  font-size:60px;
+  color:var(--pink);
+  -webkit-text-stroke:1px var(--pink-dark);
+  pointer-events:none;
+  animation:float 2.5s infinite;
+}
+
+@keyframes float{50%{transform:translateY(-10px) rotate(5deg)}}
+
+/* GAME MENANGKAP HATI */
+
+.arena{
+  width:100%;
+  max-width:440px;
+  height:calc(100svh - 210px);
+  min-height:350px;
+  max-height:680px;
+  position:relative;
+  overflow:hidden;
+  margin:auto;
+}
+
+.target{
+  position:absolute;
+  width:62px;
+  height:62px;
+  border:0;
+  background:transparent;
+  color:var(--pink);
+  font-size:0;
+  transition:opacity .15s,transform .15s;
+}
+
+.target:before{
+  content:"♥";
+  font:62px Arial;
+  color:var(--pink);
+  -webkit-text-stroke:2px var(--pink-dark);
+}
+
+.target.popped{opacity:0;transform:scale(1.7)}
+
+.arrow{
+  position:absolute;
+  z-index:5;
+  font-size:32px;
+  transform:rotate(-45deg);
+  transition:top .25s linear;
+  pointer-events:none;
+}
+
+.confetti{
+  position:absolute;
+  z-index:8;
+  width:7px;
+  height:11px;
+  animation:burst 1s ease-out forwards;
+  pointer-events:none;
+}
+
+@keyframes burst{
+  to{transform:translate(var(--x),var(--y)) rotate(600deg);opacity:0}
+}
+
+.hit-word{
+  position:absolute;
+  font:35px "Dancing Script",cursive;
+  color:var(--pink-dark);
+  z-index:9;
+  animation:word .8s forwards;
+  pointer-events:none;
+}
+
+@keyframes word{
+  0%{opacity:0;transform:scale(.6)}
+  25%{opacity:1;transform:scale(1.15)}
+  100%{opacity:0;transform:translateY(-24px)}
+}
+
+.shoot{
+  background:white;
+  border:2px solid var(--pink-dark);
+  border-radius:40px;
+  padding:14px 25px;
+  font-weight:700;
+  color:var(--ink);
+}
+
+/* MEMORY CARD */
+
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+  width:100%;
+  max-width:390px;
+  margin:25px auto;
+}
+
+.memory-card{
+  aspect-ratio:1;
+  min-width:0;
+  border:2px solid var(--line);
+  border-radius:14px;
+  background:white;
+  color:var(--ink);
+  font-size:25px;
+  box-shadow:0 4px 12px #28334e0b;
+}
+
+.memory-card.open,.memory-card.matched{
+  background:var(--pink-light);
+  border-color:var(--pink-dark);
+}
+
+.memory-card:disabled{opacity:1}
+
+/* PUZZLE FOTO */
+
+.upload{
+  width:100%;
+  max-width:440px;
+  margin:18px auto;
+  padding:15px;
+  background:white;
+  border:2px dashed var(--pink-dark);
+  border-radius:18px;
+  text-align:center;
+}
+
+.upload label{
+  display:block;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.upload input{width:100%;font-size:12px}
+
+.preview{
+  display:none;
+  width:140px;
+  aspect-ratio:1;
+  object-fit:cover;
+  border:4px solid white;
+  margin:12px auto 0;
+  border-radius:8px;
+}
+
+.board{
+  width:100%;
+  max-width:440px;
+  background:var(--paper);
+  border:2px solid var(--line);
+  border-radius:20px;
+  padding:15px;
+}
+
+.board h2{
+  text-align:center;
+  font-size:14px;
+  margin:0 0 15px;
+}
+
+.slots{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  aspect-ratio:1;
+  border:2px dashed var(--pink-dark);
+  background:white;
+}
+
+.slot{
+  min-width:0;
+  min-height:0;
+  padding:0;
+  border:1px solid #eadde1;
+  background:#fff;
+  overflow:hidden;
+}
+
+.slot.correct{box-shadow:inset 0 0 0 2px #e8a8b8}
+
+.piece{
+  width:100%;
+  height:100%;
+  display:block;
+  padding:0;
+  border:0;
+  background-repeat:no-repeat;
+  background-size:300% 300%;
+  background-color:white;
+}
+
+.tray{
+  width:100%;
+  max-width:440px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  padding:13px;
+  background:var(--paper);
+  border-radius:12px;
+}
+
+.tray .piece{
+  aspect-ratio:1;
+  height:auto;
+  border:1px solid var(--line);
+  border-radius:4px;
+}
+
+.piece.selected{
+  outline:4px solid var(--pink-dark);
+  outline-offset:-4px;
+}
+
+.hint{
+  text-align:center;
+  font-size:12px;
+  line-height:1.8;
+  max-width:420px;
+}
+
+.puzzle-layout{width:100%;max-width:440px}
+
+/* POPUP */
+
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:#30344980;
+  backdrop-filter:blur(5px);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.overlay.show{display:flex}
+
+.popup{
+  width:100%;
+  max-width:440px;
+  max-height:85svh;
+  overflow:auto;
+  background:var(--bg);
+  border:4px solid var(--pink-dark);
+  border-radius:30px;
+  padding:28px 22px;
+  text-align:center;
+}
+
+.popup h2{
+  font:42px "Dancing Script",cursive;
+  margin:0 0 15px;
+}
+
+.popup p{font-size:13px;line-height:1.9}
+
+/* SURAT */
+
+.paper{
+  width:100%;
+  max-width:480px;
+  background:var(--paper);
+  padding:23px 20px;
+  margin:20px auto;
+  box-shadow:0 5px 20px #28334e0c;
+}
+
+.paper h2{
+  text-align:center;
+  font-size:23px;
+  line-height:1.5;
+}
+
+.paper hr{
+  border:0;
+  border-top:2px solid #e9dfe3;
+  margin:22px 0;
+}
+
+.paper p{
+  text-align:justify;
+  font-size:13px;
+  line-height:2.05;
+  white-space:pre-line;
+}
+
+/* GALERI FOTO */
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  width:100%;
+  max-width:470px;
+  margin:25px auto;
+}
+
+.memory-photo{
+  min-width:0;
+  padding:6px 6px 12px;
+  background:white;
+  border:1px solid #f1d5df;
+  border-radius:13px;
+  box-shadow:0 5px 15px #bd71891c;
+}
+
+.memory-photo:nth-child(odd){transform:rotate(-1deg)}
+.memory-photo:nth-child(even){transform:rotate(1deg)}
+
+.memory-photo img{
+  display:block;
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  border-radius:8px;
+  background:var(--pink-light);
+}
+
+.memory-photo p{
+  margin:8px 2px 0;
+  text-align:center;
+  font-size:10px;
+  line-height:1.6;
+  color:var(--pink-dark);
+}
+
+.photo-error{
+  display:grid;
+  place-items:center;
+  min-height:120px;
+  padding:10px;
+  text-align:center;
+  color:var(--pink-dark);
+  background:var(--pink-light);
+  font-size:12px;
+}
+
+@media(max-width:380px){
+  .page{padding-left:12px;padding-right:12px}
+  .memory-grid{gap:6px}
+  .memory-card{font-size:22px}
+  .arena{min-height:320px}
+  .paper{padding:19px 16px}
+  .gallery{gap:8px}
+  .tray{gap:6px;padding:8px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="song" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music-note">♫</div>
+<button class="music" id="musicButton" aria-label="Putar musik">♫</button>
+
+<!-- 1. PEMBUKA -->
+<section class="page active" id="home">
+  <span class="heart-decoration" style="top:13%;left:5%">♥</span>
+  <span class="heart-decoration" style="bottom:17%;right:7%">♥</span>
+
+  <div class="home-content">
+    <div class="music-player">
+      <span class="disc"></span>
+      <span>our little soundtrack ♡</span>
+      <span>Ⅱ</span>
+    </div>
+
+    <h1 class="script">happyyy anniversaryyy <br>c3 tahunnn kitaaa sayangggg</h1>
+
+    <p>
+      semuaaa iniii dibuattt penuhhh rasaaa hanyaaa buattt kamuuu sayanggg.ayooo ikutinnn disetiappp ceritanyaaa, n lewatinnn setiapp tahapannyaaa temuinnn pesannn palinggg tulussss yanggg akuuu simpannn buattt kamuuuu
+    </p>
+
+    <button class="btn" onclick="startHeartGame()">
+      MULAI PETUALANGAN ❤️
+    </button>
+  </div>
+</section>
+
+<!-- 2. GAME HATI -->
+<section class="page" id="heartGame">
+  <div class="pill">
+    🏹 Hati yang Kena:
+    <span id="heartScore">0</span> / 10
+  </div>
+
+  <p class="hint">tembak 10 hati untuk melanjutkan 💗</p>
+
+  <div class="arena" id="arena"></div>
+
+  <button class="shoot" id="shootButton">
+    🏹 TEMBAKKAN PANAH
+  </button>
+</section>
+
+<!-- 3. MEMORY CARD -->
+<section class="page" id="memoryGame">
+  <div class="pill">
+    ⌛ Waktu: <span id="time">60</span>s |
+    ❄️ Cocok: <span id="score">0</span> / 8
+  </div>
+
+  <p style="text-align:center;margin-top:24px">
+    ingat setiap hal kecil tentang kita 🤍
+  </p>
+
+  <div class="memory-grid" id="memoryGrid"></div>
+
+  <button class="btn btn-white" onclick="startMemoryGame()">
+    🔄 Mulai ulang
+  </button>
+</section>
+
+<!-- 4. PUZZLE FOTO OTOMATIS -->
+<section class="page" id="puzzleGame">
+  <div class="pill">🧩 susun kepingan</div>
+
+  <div class="puzzle-layout">
+    <div class="upload">
+      <label for="puzzlePhoto">📸 Foto kenangan kita</label>
+
+      <input type="file" id="puzzlePhoto" accept="image/*">
+
+      <p class="hint">
+        Foto otomatis tersedia dari folder assets.
+        Kamu juga bisa memilih foto lain jika mau.
+      </p>
+
+      <img class="preview" id="preview" alt="Preview foto puzzle">
+    </div>
+
+    <div class="board">
+      <h2>🧩 lengkapi foto kenangan kita</h2>
+      <div class="slots" id="slots"></div>
+    </div>
+
+    <p class="hint" id="puzzleHint">
+      pilih kepingan di bawah, lalu ketuk slot yang ingin diisi.
+      susun hingga fotonya kembali utuh.
+    </p>
+
+    <div class="tray" id="tray"></div>
+
+    <button class="btn" style="margin-top:12px" onclick="shufflePuzzle()">
+      ACAK ULANG 🧩
+    </button>
+
+    <button class="btn btn-white" style="margin-top:10px"
+      onclick="showPage('letter')">
+      Lewati puzzle
+    </button>
+  </div>
+</section>
+
+<!-- 5. SURAT CINTA -->
+<section class="page" id="letter">
+  <div class="pill">💌 a letter for you</div>
+
+  <div class="paper">
+    <h2>🤎HAPPY ANNIVERSARY 3 TAHUNNN SAYANGKUUUU✨</h2>
+    <hr>
+
+    <p>
+happyyy anniversary to three yearrr sayanggg tigaaaa tahunnn penuhhh ceritaaa, candaaa airrr, airr mataaa, pelukannn, salinggg bertahannn satuuu samaaa lainnn, akuuu mintaaa maafff buattt semuaaaa kesalahannkuuu ditahunnn iniii yaaa sayangggg buattt semuaaaa kesalahannkuuu yanggg banyaaa bangettt n pastinyaaa buattt kamuuu jadiii sakittt akuuu mintaaa maafff ditahunnn iniii akuuu banyaaa bangettt nyakitinnn kamuuu n terimakasiii yaaa sayanggg sudaaaa bertahannn samaaa akuuu sampeee sejauhhh iniii sudaaaa stayyy samaaa akuuu sampeee sejauhhh iniii 3 tahunnn lamanyaaaa dariii kitaaa awalll smppp sayanggg sampeeee sejauhhh iniii kitaaaa mauuu lulusss smaaa bentarrr lagiii, akuuu banggaaa jugaaa sayanggg bisaaa ketemuuu kamuuu bisaaa kenalll kamuuu sampeee sejauhhh iniii kamuuu cantikkk kamuuu baikkkk keee akuuu n semuaaa keluargaaa akuuu mbaaa meiii danesss mamaaaa maskuuu jugaaaa makasiii saayanggg sudaaa selaluuu adaaa buattt akuuu jugaa
+</p>
+  
+</div>
+
+  <button class="btn" onclick="showPage('gallery')">
+    LIHAT JEJAK KITA 📷
+  </button>
+</section>
+
+<!-- 6. GALERI FOTO OTOMATIS -->
+<section class="page" id="gallery">
+  <h1 class="script">jejak 3 tahun<br>tentang kita</h1>
+
+  <p style="text-align:center">setiap foto punya cerita ♡</p>
+
+  <div class="upload">
+    <label for="galleryInput">📸 Tambahkan foto kenangan</label>
+    <input type="file" id="galleryInput" accept="image/*" multiple>
+    <p class="hint">
+      Foto default akan tampil otomatis. Pilih foto lain jika ingin menggantinya.
+    </p>
+  </div>
+
+  <div class="gallery" id="galleryGrid"></div>
+
+  <button class="btn" onclick="showPage('ending')">
+    UNTUK KITA, SELAMANYA 🤍
+  </button>
+</section>
+
+<!-- 7. PENUTUP -->
+<section class="page" id="ending" style="justify-content:center">
+  <div class="home-content">
+    <h1 class="script">one year down,<br>forever to go. 🤍</h1>
+
+    <p>
+      kalau suatu hari kamu lupa betapa berharganya dirimu,
+      semoga halaman kecil ini mengingatkanmu bahwa ada seseorang
+      yang bersyukur karena bisa berjalan sejauh ini bersamamu.
+    </p>
+
+    <h2 class="script">i love you, always.</h2>
+
+    <button class="btn" onclick="restartStory()">
+      ULANGI CERITA KITA ♡
+    </button>
+  </div>
+</section>
+
+<!-- POPUP -->
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <h2 id="popupTitle">hebattt bangettt pacarrr akuuu!</h2>
+    <p id="popupText"></p>
+    <button class="btn" id="popupButton">LANJUTKAN ♡</button>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let activePage = "home";
+
+function showPage(id){
+  stopHeartAnimation();
+  stopMemoryTimer();
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  $(id).classList.add("active");
+  activePage = id;
+
+  window.scrollTo({top:0,behavior:"smooth"});
+
+  if(id==="puzzleGame" && !puzzleInitialized){
+    loadDefaultPuzzle();
+  }
+
+  if(id==="gallery"){
+    renderDefaultGallery();
+  }
+}
+
+function popup(title,text,button,callback){
+  $("popupTitle").textContent=title;
+  $("popupText").textContent=text;
+  $("popupButton").textContent=button;
+  $("overlay").classList.add("show");
+
+  $("popupButton").onclick=()=>{
+    $("overlay").classList.remove("show");
+    if(callback)callback();
+  };
+}
+
+/* MUSIK */
+
+
+
+/* MUSIK OTOMATIS */
+
+const song = document.getElementById("song");
+const musicButton = document.getElementById("musicButton");
+
+async function playMusic() {
+  try {
+    await song.play();
+
+    musicButton.textContent = "Ⅱ";
+    musicButton.setAttribute("aria-label", "Jeda musik");
+  } catch (error) {
+    musicButton.textContent = "♫";
+    musicButton.setAttribute("aria-label", "Putar musik");
+  }
+}
+
+// Coba autoplay saat halaman siap
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", playMusic, {
+    once: true
+  });
+} else {
+  playMusic();
+}
+
+// Coba putar lagi pada interaksi pertama
+function unlockMusic() {
+  if (song.paused) {
+    playMusic();
+  }
+
+  document.removeEventListener("pointerdown", unlockMusic);
+  document.removeEventListener("keydown", unlockMusic);
+}
+
+document.addEventListener("pointerdown", unlockMusic);
+document.addEventListener("keydown", unlockMusic);
+
+// Tombol musik
+musicButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+
+  if (song.paused) {
+    playMusic();
+  } else {
+    song.pause();
+    musicButton.textContent = "♫";
+    musicButton.setAttribute("aria-label", "Putar musik");
+  }
+});
+
+
+/* GAME HATI */
+
+let hits=0;
+let running=false;
+let hearts=[];
+let raf=null;
+let lastSpawn=0;
+let lastShot=0;
+
+function stopHeartAnimation(){
+  running=false;
+
+  if(raf){
+    cancelAnimationFrame(raf);
+    raf=null;
+  }
+}
+
+function startHeartGame() {
+  playMusic();
+
+  stopMemoryTimer();
+  stopHeartAnimation();
+
+  // Lanjutkan kode startHeartGame kamu
+  // yang sudah ada di bawah ini
+
+  hits=0;
+  hearts=[];
+  lastSpawn=0;
+
+  $("heartScore").textContent="0";
+  $("arena").innerHTML="";
+
+  showPage("heartGame");
+
+  running=true;
+
+  for(let i=0;i<4;i++){
+    spawnHeart(-80-i*145);
+  }
+
+  raf=requestAnimationFrame(animateHearts);
+}
+
+function spawnHeart(y=-70){
+  const arena=$("arena");
+  const el=document.createElement("button");
+
+  el.className="target";
+  el.setAttribute("aria-label","Hati target");
+
+  const x=Math.random()*Math.max(0,arena.clientWidth-65);
+
+  el.style.left=x+"px";
+  el.style.top=y+"px";
+  arena.appendChild(el);
+
+  hearts.push({
+    el,
+    x,
+    y,
+    speed:1.2+Math.random()*1.4,
+    active:true
+  });
+}
+
+function animateHearts(t){
+  if(!running)return;
+
+  const arena=$("arena");
+  const height=arena.clientHeight;
+
+  hearts.forEach(h=>{
+    if(!h.active)return;
+
+    h.y+=h.speed;
+
+    if(h.y>height-30){
+      h.y=-70;
+      h.x=Math.random()*Math.max(0,arena.clientWidth-65);
+      h.el.style.left=h.x+"px";
+    }
+
+    h.el.style.top=h.y+"px";
+  });
+
+  if(t-lastSpawn>1700){
+    if(hearts.filter(h=>h.active).length<4){
+      spawnHeart(-70);
+    }
+    lastSpawn=t;
+  }
+
+  raf=requestAnimationFrame(animateHearts);
+}
+
+$("shootButton").onclick=()=>{
+  if(!running || performance.now()-lastShot<350)return;
+
+  lastShot=performance.now();
+
+  const arena=$("arena");
+
+  const target=hearts
+    .filter(h=>h.active)
+    .sort((a,b)=>b.y-a.y)[0];
+
+  if(!target)return;
+
+  const arrow=document.createElement("span");
+
+  arrow.className="arrow";
+  arrow.textContent="➶";
+  arrow.style.left=(target.x+12)+"px";
+  arrow.style.top=(arena.clientHeight-25)+"px";
+
+  arena.appendChild(arrow);
+
+  requestAnimationFrame(()=>{
+    arrow.style.top=Math.max(0,target.y+10)+"px";
+  });
+
+  setTimeout(()=>{
+    arrow.remove();
+
+    if(!running || !target.active)return;
+
+    target.active=false;
+    target.el.classList.add("popped");
+
+    burst(target.x+30,target.y+25);
+    word(target.x,target.y,"Kena!");
+
+    $("heartScore").textContent=++hits;
+
+    if(hits>=10){
+      stopHeartAnimation();
+
+      setTimeout(()=>{
+        popup(
+          "Sempurna! 💗",
+          "hebat sekali! semua hati berhasil kamu temukan.",
+          "LANJUTKAN ♡",
+          startMemoryGame
+        );
+      },500);
+    }else{
+      setTimeout(()=>{
+        target.el.remove();
+        if(running)spawnHeart(-70);
+      },220);
+    }
+  },280);
+};
+
+function burst(x,y){
+  const colors=["#e9a6b5","#bd7189","#f8dce4","#fff"];
+
+  for(let i=0;i<20;i++){
+    const el=document.createElement("span");
+
+    el.className="confetti";
+    el.style.left=x+"px";
+    el.style.top=y+"px";
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.setProperty("--x",(Math.random()*150-75)+"px");
+    el.style.setProperty("--y",(Math.random()*160-80)+"px");
+
+    $("arena").appendChild(el);
+    setTimeout(()=>el.remove(),1200);
+  }
+}
+
+function word(x,y,text){
+  const el=document.createElement("span");
+
+  el.className="hit-word";
+  el.textContent=text;
+  el.style.left=Math.max(3,x-10)+"px";
+  el.style.top=Math.max(3,y-30)+"px";
+
+  $("arena").appendChild(el);
+  setTimeout(()=>el.remove(),900);
+}
+
+/* MEMORY CARD */
+
+const symbols=["★","☾","✿","🔑","♫","🎂","📷","♥"];
+
+let timer=null;
+let seconds=60;
+let matched=0;
+let first=null;
+let locked=false;
+let memoryRunning=false;
+
+function stopMemoryTimer(){
+  memoryRunning=false;
+
+  if(timer){
+    clearInterval(timer);
+    timer=null;
+  }
+}
+
+function startMemoryGame(){
+  stopHeartAnimation();
+  stopMemoryTimer();
+
+  showPage("memoryGame");
+
+  seconds=60;
+  matched=0;
+  first=null;
+  locked=false;
+  memoryRunning=true;
+
+  $("time").textContent=seconds;
+  $("score").textContent="0";
+  $("memoryGrid").innerHTML="";
+
+  [...symbols,...symbols]
+    .sort(()=>Math.random()-.5)
+    .forEach(sym=>{
+      const c=document.createElement("button");
+
+      c.className="memory-card";
+      c.textContent="❄";
+      c.dataset.sym=sym;
+      c.setAttribute("aria-label","Kartu memory");
+
+      c.onclick=()=>flip(c);
+      $("memoryGrid").appendChild(c);
+    });
+
+  timer=setInterval(()=>{
+    seconds--;
+    $("time").textContent=seconds;
+
+    if(seconds<=0){
+      stopMemoryTimer();
+      locked=true;
+
+      popup(
+        "Coba lagi 🤍",
+        "ayo coba sekali lagi, kamu pasti bisa.",
+        "ULANGI",
+        startMemoryGame
+      );
+    }
+  },1000);
+}
+
+function flip(c){
+  if(!memoryRunning || locked ||
+     c.classList.contains("open") ||
+     c.classList.contains("matched"))return;
+
+  c.classList.add("open");
+  c.textContent=c.dataset.sym;
+
+  if(!first){
+    first=c;
+    return;
+  }
+
+  if(first.dataset.sym===c.dataset.sym){
+    first.classList.add("matched");
+    c.classList.add("matched");
+    first.disabled=true;
+    c.disabled=true;
+    first=null;
+
+    $("score").textContent=++matched;
+
+    if(matched===8){
+      stopMemoryTimer();
+      locked=true;
+
+      setTimeout(()=>{
+        popup(
+          "Beautiful! ✨",
+          "ingatanmu begitu indah. sekarang ayo susun kepingan kenangan kita.",
+          "SUSUN FOTO 🧩",
+          ()=>{
+            showPage("puzzleGame");
+            startPuzzle();
+          }
+        );
+      },400);
+    }
+  }else{
+    locked=true;
+    const old=first;
+    first=null;
+
+    setTimeout(()=>{
+      old.classList.remove("open");
+      c.classList.remove("open");
+      old.textContent="❄";
+      c.textContent="❄";
+      locked=false;
+    },750);
+  }
+}
+
+/* PUZZLE FOTO OTOMATIS */
+
+let photoURL="";
+let board=Array(9).fill(null);
+let tray=[];
+let selected=null;
+let complete=false;
+let puzzleInitialized=false;
+
+const photoInput=$("puzzlePhoto");
+const preview=$("preview");
+
+function loadDefaultPuzzle(){
+  const img=new Image();
+
+  img.onload=()=>{
+    if(photoURL.startsWith("blob:")){
+      URL.revokeObjectURL(photoURL);
+    }
+
+    photoURL="assets/puzzle-photo.jpg";
+    preview.src=photoURL;
+    preview.style.display="block";
+
+    startPuzzle();
+  };
+
+  img.onerror=()=>{
+    preview.style.display="none";
+
+    if(!photoURL){
+      $("puzzleHint").textContent=
+        "puzzle-photo.jpg agar foto puzzle muncul otomatis.";
+    }
+  };
+
+  img.src="puzzle-photo.jpg";
+}
+
+photoInput.onchange=e=>{
+  const file=e.target.files[0];
+
+  if(!file)return;
+
+  if(!file.type.startsWith("image/")){
+    alert("Pilih file gambar yang valid.");
+    return;
+  }
+
+  if(photoURL.startsWith("blob:")){
+    URL.revokeObjectURL(photoURL);
+  }
+
+  photoURL=URL.createObjectURL(file);
+  preview.src=photoURL;
+  preview.style.display="block";
+
+  startPuzzle();
+};
+
+function startPuzzle(){
+  if(!photoURL){
+    loadDefaultPuzzle();
+    return;
+  }
+
+  complete=false;
+  selected=null;
+  board=Array(9).fill(null);
+
+  tray=[0,1,2,3,4,5,6,7,8]
+    .sort(()=>Math.random()-.5);
+
+  // Pastikan susunan tidak langsung benar semua
+  if(tray.every((v,i)=>v===i)){
+    tray.push(tray.shift());
+  }
+
+  puzzleInitialized=true;
+  renderPuzzle();
+}
+
+function shufflePuzzle(){
+  startPuzzle();
+}
+
+function piece(i){
+  const el=document.createElement("button");
+
+  el.className="piece";
+  el.type="button";
+  el.style.backgroundImage=`url("${photoURL}")`;
+  el.style.backgroundSize="300% 300%";
+  el.style.backgroundPosition=
+    `${(i%3)*50}% ${Math.floor(i/3)*50}%`;
+  el.setAttribute("aria-label",`Kepingan ${i+1}`);
+
+  return el;
+}
+
+function renderPuzzle(){
+  $("slots").innerHTML="";
+  $("tray").innerHTML="";
+
+  for(let i=0;i<9;i++){
+    const s=document.createElement("button");
+
+    s.className="slot";
+    s.type="button";
+
+    if(board[i]!==null){
+      if(board[i]===i)s.classList.add("correct");
+
+      s.appendChild(piece(board[i]));
+
+      s.onclick=()=>{
+        if(complete)return;
+
+        tray.push(board[i]);
+        board[i]=null;
+        selected=null;
+        renderPuzzle();
+      };
+    }else{
+      s.onclick=()=>{
+        if(selected!==null && !complete){
+          place(selected,i);
+        }
+      };
+
+      if(selected!==null){
+        s.style.background="#f8dce4";
+      }
+    }
+
+    $("slots").appendChild(s);
+  }
+
+  tray.forEach(i=>{
+    const el=piece(i);
+
+    if(selected===i){
+      el.classList.add("selected");
+    }
+
+    el.onclick=()=>{
+      if(complete)return;
+
+      selected=selected===i?null:i;
+      renderPuzzle();
+    };
+
+    $("tray").appendChild(el);
+  });
+}
+
+function place(pieceIndex,slotIndex){
+  if(board[slotIndex]!==null || complete)return;
+
+  const idx=tray.indexOf(pieceIndex);
+
+  if(idx<0)return;
+
+  tray.splice(idx,1);
+  board[slotIndex]=pieceIndex;
+  selected=null;
+
+  renderPuzzle();
+
+  if(board.every((value,index)=>value===index)){
+    complete=true;
+
+    setTimeout(()=>{
+      popup(
+        "hebattt bangettt pacarrr akuuu!”",
+        "kepingan yang terpisah akhirnya kembali utuh. seperti kenangan kita yang selalu punya tempat tersendiri.",
+        "BACA SURAT 💌",
+        ()=>showPage("letter")
+      );
+    },400);
+  }
+}
+
+/* GALERI FOTO DEFAULT */
+
+const defaultPhotos=[
+  ["foto1.jpg","our little beginning ♡"],
+  ["foto2.jpg","my favorite person"],
+  ["foto3.jpg","little moments, big memories"],
+  ["foto4.jpg","just you and me"],
+  ["foto5.jpg","one of my favorite days"],
+  ["foto6.jpg","more memories to come ♡"],
+  ["foto7.jpg","our little universe"],
+  ["foto8.jpg","always my favorite"]
+  ["foto9.jpg","i love you"]
+  ["foto10.jpg","thank you"]
+];
+
+function renderDefaultGallery(){
+  const grid=$("galleryGrid");
+
+  if(grid.children.length)return;
+
+  defaultPhotos.forEach(([src,caption])=>{
+    addGalleryPhoto(src,caption);
+  });
+}
+
+function addGalleryPhoto(src,caption){
+  const card=document.createElement("div");
+  card.className="memory-photo";
+
+  const img=document.createElement("img");
+  img.src=src;
+  img.alt=caption;
+  img.loading="lazy";
+
+  img.onerror=()=>{
+    img.style.display="none";
+
+    const error=document.createElement("div");
+    error.className="photo-error";
+    error.textContent="Tambahkan foto di folder assets";
+    card.insertBefore(error,card.querySelector("p"));
+  };
+
+  const p=document.createElement("p");
+  p.textContent=caption;
+
+  card.append(img,p);
+  $("galleryGrid").appendChild(card);
+}
+
+$("galleryInput").onchange=e=>{
+  const files=[...e.target.files]
+    .filter(f=>f.type.startsWith("image/"));
+
+  if(!files.length)return;
+
+  $("galleryGrid").innerHTML="";
+
+  files.forEach((file,index)=>{
+    const url=URL.createObjectURL(file);
+    addGalleryPhoto(url,`our memory ${index+1} ♡`);
+  });
+};
+
+/* MULAI ULANG */
+
+function restartStory(){
+  stopHeartAnimation();
+  stopMemoryTimer();
+
+  hits=0;
+  hearts=[];
+  matched=0;
+  first=null;
+  locked=false;
+  puzzleInitialized=false;
+  complete=false;
+  photoURL="";
+  board=Array(9).fill(null);
+  tray=[];
+  selected=null;
+
+  $("heartScore").textContent="0";
+  $("arena").innerHTML="";
+  $("memoryGrid").innerHTML="";
+  $("slots").innerHTML="";
+  $("tray").innerHTML="";
+  $("galleryGrid").innerHTML="";
+  $("puzzlePhoto").value="";
+  $("preview").style.display="none";
+
+  showPage("home");
+}
+</script>
+
+</body>
+</html>
