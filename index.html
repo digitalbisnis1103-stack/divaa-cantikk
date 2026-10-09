@@ -1360,84 +1360,56 @@ const defaultPhotos=[
   ["foto10.jpg","thank you"]
 ];
 
-function renderDefaultGallery(){
-  const grid=$("galleryGrid");
 
-  if(grid.children.length)return;
+/* GALERI FOTO OTOMATIS */
 
-  defaultPhotos.forEach(([src,caption])=>{
-    addGalleryPhoto(src,caption);
-  });
+// Foto sudah ditulis langsung di HTML.
+// Tidak perlu membuat foto menggunakan JavaScript lagi.
+
+function renderDefaultGallery() {
+  // Galeri otomatis tampil dari HTML.
+  // Fungsi ini dipertahankan agar pemanggilan lama tidak error.
 }
 
-function addGalleryPhoto(src,caption){
-  const card=document.createElement("div");
-  card.className="memory-photo";
+// MULAI ULANG
 
-  const img=document.createElement("img");
-  img.src=src;
-  img.alt=caption;
-  img.loading="lazy";
-
-  img.onerror=()=>{
-    img.style.display="none";
-
-    const error=document.createElement("div");
-    error.className="photo-error";
-    error.textContent="Tambahkan foto di folder assets";
-    card.insertBefore(error,card.querySelector("p"));
-  };
-
-  const p=document.createElement("p");
-  p.textContent=caption;
-
-  card.append(img,p);
-  $("galleryGrid").appendChild(card);
-}
-
-$("galleryInput").onchange=e=>{
-  const files=[...e.target.files]
-    .filter(f=>f.type.startsWith("image/"));
-
-  if(!files.length)return;
-
-  $("galleryGrid").innerHTML="";
-
-  files.forEach((file,index)=>{
-    const url=URL.createObjectURL(file);
-    addGalleryPhoto(url,`our memory ${index+1} ♡`);
-  });
-};
-
-/* MULAI ULANG */
-
-function restartStory(){
+function restartStory() {
   stopHeartAnimation();
   stopMemoryTimer();
 
-  hits=0;
-  hearts=[];
-  matched=0;
-  first=null;
-  locked=false;
-  puzzleInitialized=false;
-  complete=false;
-  photoURL="";
-  board=Array(9).fill(null);
-  tray=[];
-  selected=null;
+  hits = 0;
+  hearts = [];
+  matched = 0;
+  first = null;
+  locked = false;
+  puzzleInitialized = false;
+  complete = false;
 
-  $("heartScore").textContent="0";
-  $("arena").innerHTML="";
-  $("memoryGrid").innerHTML="";
-  $("slots").innerHTML="";
-  $("tray").innerHTML="";
-  $("galleryGrid").innerHTML="";
-  $("puzzlePhoto").value="";
-  $("preview").style.display="none";
+  if (photoURL.startsWith("blob:")) {
+    URL.revokeObjectURL(photoURL);
+  }
+
+  photoURL = "";
+  board = Array(9).fill(null);
+  tray = [];
+  selected = null;
+
+  $("heartScore").textContent = "0";
+  $("arena").innerHTML = "";
+  $("memoryGrid").innerHTML = "";
+  $("slots").innerHTML = "";
+  $("tray").innerHTML = "";
+
+  // Jangan kosongkan galleryGrid,
+  // karena 10 foto sudah ditulis langsung di HTML.
+
+  $("puzzlePhoto").value = "";
+  $("preview").removeAttribute("src");
+  $("preview").style.display = "none";
 
   showPage("home");
 }
+
 </script>
 
 </body>
