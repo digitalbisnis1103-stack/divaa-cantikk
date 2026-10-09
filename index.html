@@ -587,24 +587,32 @@ p{line-height:1.9}
   </button>
 </section>
 
+
 <!-- 4. PUZZLE FOTO OTOMATIS -->
 <section class="page" id="puzzleGame">
+
   <div class="pill">🧩 susun kepingan</div>
 
   <div class="puzzle-layout">
-    <div class="upload">
-      <label for="puzzlePhoto">📸 Foto kenangan kita</label>
 
-      <input type="file" id="puzzlePhoto" accept="image/*">
+    <!-- FOTO PUZZLE OTOMATIS -->
+    <div class="upload">
+      <label>📸 our favorite memory ♡</label>
+
+      <img
+        class="preview"
+        id="preview"
+        src="puzzle-photo.jpg"
+        alt="Foto kenangan kita"
+        style="display:block;"
+      >
 
       <p class="hint">
-        Foto otomatis tersedia dari folder assets.
-        Kamu juga bisa memilih foto lain jika mau.
+        susun kepingan fotonya sampai kembali utuh yaa 💗
       </p>
-
-      <img class="preview" id="preview" alt="Preview foto puzzle">
     </div>
 
+    <!-- PAPAN PUZZLE -->
     <div class="board">
       <h2>🧩 lengkapi foto kenangan kita</h2>
       <div class="slots" id="slots"></div>
@@ -612,21 +620,31 @@ p{line-height:1.9}
 
     <p class="hint" id="puzzleHint">
       pilih kepingan di bawah, lalu ketuk slot yang ingin diisi.
-      susun hingga fotonya kembali utuh.
+      susun sampai fotonya kembali utuh ♡
     </p>
 
+    <!-- KEPINGAN FOTO -->
     <div class="tray" id="tray"></div>
 
-    <button class="btn" style="margin-top:12px" onclick="shufflePuzzle()">
+    <button
+      class="btn"
+      style="margin-top:12px"
+      onclick="shufflePuzzle()"
+    >
       ACAK ULANG 🧩
     </button>
 
-    <button class="btn btn-white" style="margin-top:10px"
-      onclick="showPage('letter')">
-      Lewati puzzle
+    <button
+      class="btn btn-white"
+      style="margin-top:10px"
+      onclick="showPage('letter')"
+    >
+      Lewati puzzle 💌
     </button>
+
   </div>
 </section>
+
 
 <!-- 5. SURAT CINTA -->
 <section class="page" id="letter">
@@ -1111,32 +1129,26 @@ let puzzleInitialized=false;
 const photoInput=$("puzzlePhoto");
 const preview=$("preview");
 
-function loadDefaultPuzzle(){
-  const img=new Image();
 
-  img.onload=()=>{
-    if(photoURL.startsWith("blob:")){
-      URL.revokeObjectURL(photoURL);
-    }
+function loadDefaultPuzzle() {
+  const img = new Image();
 
-    photoURL="puzzle-photo.jpg";
-    preview.src=photoURL;
-    preview.style.display="block";
+  img.onload = () => {
+    photoURL = "puzzle-photo.jpg";
+    $("preview").src = photoURL;
+    $("preview").style.display = "block";
 
     startPuzzle();
   };
 
-  img.onerror=()=>{
-    preview.style.display="none";
-
-    if(!photoURL){
-      $("puzzleHint").textContent=
-        "puzzle-photo.jpg agar foto puzzle muncul otomatis.";
-    }
+  img.onerror = () => {
+    $("puzzleHint").textContent =
+      "Foto puzzle tidak ditemukan. Pastikan puzzle-photo.jpg berada di folder yang sama dengan file HTML.";
   };
 
-  img.src="puzzle-photo.jpg";
+  img.src = "puzzle-photo.jpg";
 }
+
 
 photoInput.onchange=e=>{
   const file=e.target.files[0];
